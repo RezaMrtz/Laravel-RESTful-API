@@ -12,7 +12,7 @@
 */
 
 /* Users */
-Route::resource('user', 'UserController', ['except' => ['create', 'edit']]);
+Route::resource('user', 'User/UserController', ['except' => ['create', 'edit']]);
 
 /* Categories */
 Route::resource('categories', 'Category\CategoriesController', ['except' => ['create', 'edit']]);
@@ -21,7 +21,7 @@ Route::resource('categories', 'Category\CategoriesController', ['except' => ['cr
 Route::resource('buyers', 'Buyer\BuyersController', ['except' => ['create', 'edit']]);
 
 /* Product */
-Route::resource('product', 'Product\BuyerController', ['only' => ['index', 'show']]);
+Route::resource('product', 'Product\ProductController', ['only' => ['index', 'show']]);
 
 /* Transactions */
 Route::resource('Transaction', 'Transaction\TransactionController', ['only' => ['index', 'show']]);
