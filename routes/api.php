@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,6 +11,20 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+/* Users */
+Route::resource('user', 'UserController', ['except' => ['create', 'edit']]);
+
+/* Categories */
+Route::resource('categories', 'Category\CategoriesController', ['except' => ['create', 'edit']]);
+
+/* Buyers */
+Route::resource('buyers', 'Buyer\BuyersController', ['except' => ['create', 'edit']]);
+
+/* Product */
+Route::resource('product', 'Product\BuyerController', ['only' => ['index', 'show']]);
+
+/* Transactions */
+Route::resource('Transaction', 'Transaction\TransactionController', ['only' => ['index', 'show']]);
+
+/* Sellers */
+Route::resource('seller', 'Seller\SellerController', ['only' => ['index', 'show']]);
