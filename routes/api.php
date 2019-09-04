@@ -12,7 +12,7 @@
 */
 
 /* Users */
-Route::resource('user', 'User/UserController', ['except' => ['create', 'edit']]);
+Route::resource('user', 'User\UserController', ['except' => ['create', 'edit']]);
 
 /* Categories */
 Route::resource('categories', 'Category\CategoriesController', ['except' => ['create', 'edit']]);

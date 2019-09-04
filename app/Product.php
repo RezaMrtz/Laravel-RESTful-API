@@ -23,11 +23,13 @@ class Product extends Model
         'seller_id'
     ];
 
+    /* Available or NOT */
     public function isAvailable()
     {
         $this->status == Product::AVAILABLE_PRODUCT;
     }
 
+    /* Relations */
     public function seller()
     {
         return $this->belongsTo(Seller::class);
