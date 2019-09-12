@@ -32,7 +32,7 @@ class Product extends Model
     /* Relations */
     public function seller()
     {
-        return $this->belongsTo(Seller::class);
+        return $this->belongsTo(Seller::class, 'seller_id');
     }
 
     public function transactions()

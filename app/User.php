@@ -22,6 +22,11 @@ class User extends Authenticatable
      *
      * @var array
      */
+
+    /* Protected Table */
+    protected $table = 'users';
+
+    /* Fillable */
     protected $fillable = [
         'name',
         'email',
@@ -51,6 +56,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /* Methods */
     public function isAdmin()
     {
         $this->admin == User::ADMIN_USER;
@@ -61,7 +67,7 @@ class User extends Authenticatable
         $this->verified == User::VERIFIED_USER;
     }
 
-    public function generateVerificationCode()
+    public static function generateVerificationCode()
     {
         return str_random(40);
     }
