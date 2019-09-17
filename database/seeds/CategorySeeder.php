@@ -14,6 +14,6 @@ class CategorySeeder extends Seeder
     {
         // Category::truncate();
 
-        factory(App\Category::class, 40)->create();
+        factory(Category::class, 50)->create();
     }
 }

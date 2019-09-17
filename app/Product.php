@@ -2,9 +2,7 @@
 
 namespace App;
 
-use App\Http\Controllers\Product as AppProduct;
 use Illuminate\Database\Eloquent\Model;
-
 use App\Seller;
 use App\Transaction;
 use App\Category;
@@ -42,6 +40,6 @@ class Product extends Model
 
     public function categories()
     {
-        $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class,);
     }
 }

@@ -2,8 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\User;
-use App\Product;
+use App\User, App\Product;
 use Faker\Generator as Faker;
 
 $factory->define(Product::class, function (Faker $faker) {

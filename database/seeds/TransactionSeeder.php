@@ -14,6 +14,6 @@ class TransactionSeeder extends Seeder
     {
         // Transaction::truncate();
 
-        factory(App\Transaction::class, 40)->create();
+        factory(Transaction::class, 40)->create();
     }
 }

@@ -12,19 +12,21 @@
 */
 
 /* Users */
-Route::resource('user', 'User\UserController', ['except' => ['create', 'edit']]);
+Route::resource('users', 'User\UserController', ['except' => ['create', 'edit']]);
 
 /* Categories */
-Route::resource('categories', 'Category\CategoriesController', ['except' => ['create', 'edit']]);
+Route::resource('categories', 'Category\CategoryController', ['except' => ['create', 'edit']]);
 
 /* Buyers */
-Route::resource('buyers', 'Buyer\BuyersController', ['except' => ['create', 'edit']]);
+Route::resource('buyers', 'Buyer\BuyerController', ['except' => ['create', 'edit']]);
 
 /* Product */
-Route::resource('product', 'Product\ProductController', ['only' => ['index', 'show']]);
+Route::resource('products', 'Product\ProductController', ['only' => ['index', 'show']]);
 
 /* Transactions */
-Route::resource('Transaction', 'Transaction\TransactionController', ['only' => ['index', 'show']]);
+Route::resource('Transactions', 'Transaction\TransactionController', ['only' => ['index', 'show']]);
 
 /* Sellers */
-Route::resource('seller', 'Seller\SellerController', ['only' => ['index', 'show']]);
+Route::resource('sellers', 'Seller\SellerController', ['only' => ['index', 'show']]);
+
+

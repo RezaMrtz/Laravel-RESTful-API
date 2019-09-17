@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Seller;
 
-use App\User\Seller;
+use App\Seller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class SellerController extends Controller
 {
@@ -14,17 +15,9 @@ class SellerController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $seller = Seller::has('products')->get();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json(['data'=>$seller, 'code'=> 200], 200);
     }
 
     /**
@@ -44,20 +37,11 @@ class SellerController extends Controller
      * @param  \App\User\Seller  $seller
      * @return \Illuminate\Http\Response
      */
-    public function show(Seller $seller)
+    public function show($id)
     {
-        //
-    }
+        $seller = Seller::has('products')->findOrFail($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\User\Seller  $seller
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Seller $seller)
-    {
-        //
+        return response()->json(['data' => $seller, 'code' => 200], 200);
     }
 
     /**
