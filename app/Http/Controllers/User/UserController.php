@@ -4,9 +4,9 @@ namespace App\Http\Controllers\User;
 
 use App\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 
-class UserController extends Controller
+class UserController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -103,15 +103,20 @@ class UserController extends Controller
         }
 
         if ($request->has('admin')) {
+
             if (!$users->isVerified()) {
-                return response()->json(['error' => 'Sorry! Only verified users can modify the admin field', 'code' => 409], 409);
+
+                return $this->errorResponse('Sorry! Only verified users can modify the admin field', 409);
+
             }
 
             $users->admin = $request->admin;
         }
 
         if(!$users->isDirty()) {
-            return response()->json(['error' => 'Sorry! You need to specify a different value to update!', 'code' => 422], 422);
+
+            return $this->errorResponse('Sorry! You need to specify a different value to update!',422);
+
         }
 
         $users->save();
