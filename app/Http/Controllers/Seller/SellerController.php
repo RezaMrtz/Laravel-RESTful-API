@@ -37,10 +37,8 @@ class SellerController extends ApiController
      * @param  \App\User\Seller  $seller
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Seller $seller)
     {
-        $seller = Seller::has('products')->findOrFail($id);
-
         return response()->json(['data' => $seller, 'code' => 200], 200);
     }
 
