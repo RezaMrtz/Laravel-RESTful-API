@@ -5,9 +5,12 @@ namespace App\Http\Controllers\User;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ApiController;
+use App\Traits\ApiResponser;
 
 class UserController extends ApiController
 {
+
+    use ApiResponser;
     /**
      * Display a listing of the resource.
      *
@@ -44,7 +47,7 @@ class UserController extends ApiController
 
         $user = User::create($data);
 
-        return response()->json(['data' => $user], 201);
+        return $this->showOne($user, 201);;
     }
 
     /**
@@ -53,22 +56,9 @@ class UserController extends ApiController
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        $users = User::findOrFail($id);
-
-        return response()->json(['data' => $users], 200);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(User $user)
-    {
-        //
+        return $this->showOne($user);
     }
 
     /**
@@ -78,48 +68,47 @@ class UserController extends ApiController
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        $users = User::findOrFail($id);
 
         $rules = [
-            'email' => 'email|unique:users|email' . $users->id,
+            'email' => 'email|unique:users|email' . $user->id,
             'password' => 'required|min:6|confirmed',
             'admin' => 'in:' . User::ADMIN_USER . ',' . User::REGULAR_USER,
         ];
 
         if ($request->has('name')) {
-            $users->name = $request->name;
+            $user->name = $request->name;
         }
 
-        if ($request->has('email') && $users->email != $request->email) {
-            $users->verified == User::UNVERIFIED_USER;
-            $users->verification_token == User::generateVerificationCode();
-            $users->email == $request->email;
+        if ($request->has('email') && $user->email != $request->email) {
+            $user->verified == User::UNVERIFIED_USER;
+            $user->verification_token == User::generateVerificationCode();
+            $user->email == $request->email;
         }
 
         if ($request->has('password')) {
-            $users->password == $request->bcrypt($request->password);
+            $user->password == $request->bcrypt($request->password);
         }
 
         if ($request->has('admin')) {
 
-            if (!$users->isVerified()) {
+            if (!$user->isVerified()) {
 
                 return $this->errorResponse('Sorry! Only verified users can modify the admin field', 409);
 
             }
 
-            $users->admin = $request->admin;
+            $user->admin = $request->admin;
         }
 
-        if(!$users->isDirty()) {
+        if(!$user->isDirty()) {
 
             return $this->errorResponse('Sorry! You need to specify a different value to update!',422);
 
         }
 
-        $users->save();
+        $user->save();
     }
 
 
@@ -130,13 +119,10 @@ class UserController extends ApiController
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        $user = User::findOrFail($id);
-
         $user->delete();
 
         return response()->json(['data' => $user], 200);
-
     }
 }
