@@ -5,12 +5,9 @@ namespace App\Http\Controllers\User;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ApiController;
-use App\Traits\ApiResponser;
 
 class UserController extends ApiController
 {
-
-    use ApiResponser;
     /**
      * Display a listing of the resource.
      *

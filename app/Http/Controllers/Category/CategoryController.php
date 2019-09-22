@@ -10,7 +10,6 @@ use App\Traits\ApiResponser;
 
 class CategoryController extends ApiController
 {
-    use ApiResponser;
     /**
      * Display a listing of the resource.
      *
