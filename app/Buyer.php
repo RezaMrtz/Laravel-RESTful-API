@@ -15,7 +15,6 @@ class Buyer extends User
         static::addGlobalScope(new BuyerScope);
     }
 
-
     public function transactions()
     {
         return $this->hasMany(Transaction::class);
