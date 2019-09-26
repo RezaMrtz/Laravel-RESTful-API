@@ -69,6 +69,13 @@ class SellerProductController extends ApiController
 
         $this->checkSeller($seller, $product);
 
+
+        $product->fill($request->only([
+            'name',
+            'description',
+            'quantity'
+        ]));
+
         if ($request->has('status'))
         {
             $product->status = $request->status;
@@ -77,6 +84,13 @@ class SellerProductController extends ApiController
             {
                 return $this->errorResponse('An active product must have at least ONE category', 409);
             }
+        }
+        /* Image update  */
+        if ($request->hasFile('image')) {
+
+            Storage::delete($product->image);
+
+            $product->image = $request->image->store('');
         }
 
         if ($product->isClean()) {
