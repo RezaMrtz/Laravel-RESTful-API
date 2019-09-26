@@ -13,6 +13,7 @@
 
 /* Users */
 Route::resource('users', 'User\UserController', ['except' => ['create', 'edit']]);
+Route::name('verify')->get('users/verify/{token}', 'User\UserController@verify');;
 
 /* Categories */
 Route::resource('categories', 'Category\CategoryController', ['except' => ['create', 'edit']]);
