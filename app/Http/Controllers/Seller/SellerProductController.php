@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Seller;
 use Illuminate\Http\Request;
 use App\Product, App\User, App\Seller;
 use App\Http\Controllers\ApiController;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class SellerProductController extends ApiController
@@ -41,7 +42,7 @@ class SellerProductController extends ApiController
 
         $data = $request->all();
         $data['status'] = Product::UNAVAILABLE_PRODUCT;
-        $data['image'] = '1.jpg';
+        $data['image'] = $request->image->store('');
         $data['seller_id'] = $seller->id;
 
         $product = Product::create($data);
@@ -98,16 +99,18 @@ class SellerProductController extends ApiController
         $this->checkSeller($seller, $product);
 
         $product->delete();
+        /* Deleting Image */
+        Storage::delete($product->image);
 
         return $this->showOne($product);
     }
 
+
+    /* Custom Method */
     protected function checkSeller(Seller $seller, Product $product) {
 
-        if ($product->id != $product->seller_id) {
-
+        if ($seller->id != $product->seller_id) {
             throw new HttpException(422, 'The specified seller is not the actual seller of the product');
-
         }
     }
 }
