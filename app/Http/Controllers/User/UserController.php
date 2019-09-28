@@ -65,47 +65,50 @@ class UserController extends ApiController
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
 
+        $user = User::findOrFail($id);
+
         $rules = [
-            'email' => 'email|unique:users|email' . $user->id,
+            'email' => 'email|unique:users,email,' . $user->id,
             'password' => 'required|min:6|confirmed',
             'admin' => 'in:' . User::ADMIN_USER . ',' . User::REGULAR_USER,
         ];
+
+        // $this->validate($request, $rules);
 
         if ($request->has('name')) {
             $user->name = $request->name;
         }
 
         if ($request->has('email') && $user->email != $request->email) {
-            $user->verified == User::UNVERIFIED_USER;
-            $user->verification_token == User::generateVerificationCode();
-            $user->email == $request->email;
+            $user->verified = User::UNVERIFIED_USER;
+            $user->verification_token = User::generateVerificationCode();
+            $user->email = $request->email;
         }
 
         if ($request->has('password')) {
-            $user->password == $request->bcrypt($request->password);
+            $user->password = $request->bcrypt($request->password);
         }
 
         if ($request->has('admin')) {
 
             if (!$user->isVerified()) {
-
                 return $this->errorResponse('Sorry! Only verified users can modify the admin field', 409);
-
             }
 
             $user->admin = $request->admin;
         }
 
-        if(!$user->isDirty()) {
+        if($user->isClean()) {
 
-            return $this->errorResponse('Sorry! You need to specify a different value to update!',422);
-
+            return $this->errorResponse('Sorry! You need to specify a different value to update!', 422);
         }
 
         $user->save();
+
+        return $this->showOne($user);
     }
 
 

@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\User;
+use App\Product;
 use App\Mail\UserCreated;
-use App\Product, App\User;
+use App\Mail\UserMailChanged;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -29,9 +31,16 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
+        /* Creating a new user */
         User::created(function ($user) {
             Mail::to($user)->send(new UserCreated($user));
          });
+        /* Updating user email */
+         User::updated(function ($user) {
+            if ($user->isDirty('email')) {
+                Mail::to($user)->send(new UserMailChanged($user));
+            }
+        });
 
         Product::updated(function ($product) {
             if ($product->quantity == 0 && $product->isAvailable()) {
