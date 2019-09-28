@@ -103,7 +103,7 @@ class UserController extends ApiController
             $user->admin = $request->admin;
         }
 
-        if($user->isClean()) {
+        if ($user->isClean()) {
 
             return $this->errorResponse('Sorry! You need to specify a different value to update!', 422);
         }
@@ -145,10 +145,10 @@ class UserController extends ApiController
         if ($user->isVerified()) {
             return $this->errorResponse('This user is already verified', 409);
         };
-
-        Mail::to($user)->send(new UserCreated($user));
+        retry(5, function () use ($user) {
+            Mail::to($user)->send(new UserCreated($user));
+        }, 100);
 
         return $this->showMessage('The verification email has been resend');
     }
-
 }

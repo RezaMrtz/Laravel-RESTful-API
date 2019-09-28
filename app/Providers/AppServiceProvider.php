@@ -33,12 +33,19 @@ class AppServiceProvider extends ServiceProvider
 
         /* Creating a new user */
         User::created(function ($user) {
-            Mail::to($user)->send(new UserCreated($user));
-         });
+            retry(5, function () use ($user) {
+                    Mail::to($user)->send(new UserCreated($user));
+                },100
+            );
+        });
         /* Updating user email */
-         User::updated(function ($user) {
+        User::updated(function ($user) {
+
             if ($user->isDirty('email')) {
-                Mail::to($user)->send(new UserMailChanged($user));
+                retry(5, function () use ($user) {
+                        Mail::to($user)->send(new UserMailChanged($user));
+                    },100
+                );
             }
         });
 
