@@ -7,29 +7,52 @@ use Illuminate\Database\Eloquent\Model;
 
 trait ApiResponser
 {
-    private function SuccessResponse($data, $code)
+    /* Success Response */
+    private function successResponse($data, $code)
     {
         return response()->json($data, $code);
     }
 
+    /* Error Response */
     protected function errorResponse($message, $code)
     {
         return response()->json(['error' => $message, 'code' => $code], $code);
     }
 
+    /* Show All */
     protected function showAll(Collection $collection, $code = 200)
     {
-        return $this->SuccessResponse(['data' => $collection], $code);
+        if ($collection->isEmpty()) {
+            return $this->successResponse(['data' => $collection], $code);
+        }
+
+        $transformer = $collection->first()->transformer;
+
+        $collection = $this->transformData($collection, $transformer);
+
+        return $this->successResponse($collection, $code);
     }
 
-    protected function showOne(Model $model, $code = 200)
+    /* Show One */
+    protected function showOne(Model $instance, $code = 200)
     {
-        return $this->SuccessResponse(['data' => $model], $code);
-    }
+        $transformer = $instance->transformer;
 
+        $instance =  $this->transformData($instance, $transformer);
+
+        return $this->successResponse($instance, $code);
+    }
+    /* Show Message */
     protected function showMessage($message, $code = 200)
     {
-        return $this->SuccessResponse(['data' => $message], $code);
+        return $this->successResponse(['data' => $message], $code);
     }
 
+    /* Transform Data Method */
+    protected function transformData($data, $transformer)
+    {
+        $transformation = fractal($data, new $transformer);
+
+        return $transformation->toArray();
+    }
 }

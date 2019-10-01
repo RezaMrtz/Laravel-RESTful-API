@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Transformers\UserTransformer;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -23,6 +24,9 @@ class User extends Authenticatable
      *
      * @var array
      */
+
+    /* Transformer Model */
+    public $transformer = UserTransformer::class;
 
     /* Protected Table */
     protected $table = 'users';
