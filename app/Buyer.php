@@ -10,7 +10,7 @@ class Buyer extends User
 {
 
     /* Transformer Model */
-    public  $transformer = BuyerTransformer::class;
+    public $transformer = BuyerTransformer::class;
 
     public static function boot()
     {

@@ -22,9 +22,33 @@ class ProductTransformer extends TransformerAbstract
             'situation' => (int) $product->status,
             'picture' => url("img/{$product->image}"),
             'seller' => (int) $product->seller_id,
-            'creationDate' => (string)$product->created_at,
-            'lastChange' => (string)$product->updated_at,
+            'creationDate' => (string) $product->created_at,
+            'lastChange' => (string) $product->updated_at,
             'deletedDate' => isset($product->deleted_at) ? (string) $product->deleted_at : null,
+
+            /* HATEOAS (Hypermedia as the Engine of Application State) */
+            'links' => [
+                [
+                    'rel' => 'self',
+                    'href' => route('products.show', $product->id),
+                ],
+                [
+                    'rel' => 'seller',
+                    'href' => route('sellers.show', $product->seller_id),
+                ],
+                [
+                    'rel' => 'product.buyers',
+                    'href' => route('products.buyers.index', $product->id),
+                ],
+                [
+                    'rel' => 'product.categories',
+                    'href' => route('products.categories.index', $product->id),
+                ],
+                [
+                    'rel' => 'product.transactions',
+                    'href' => route('categories.transactions.index', $product->id),
+                ],
+            ],
         ];
     }
 
@@ -34,9 +58,9 @@ class ProductTransformer extends TransformerAbstract
             'identificator' => 'id',
             'title' => 'name',
             'details' => 'description',
-            'stock' =>'quantity',
-            'situation' =>'status',
-            'picture' =>'image',
+            'stock' => 'quantity',
+            'situation' => 'status',
+            'picture' => 'image',
             'seller' => (int) 'seller_id',
             'creationDate' => 'created_at',
             'lastChange' => 'updated_at',

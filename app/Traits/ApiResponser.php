@@ -120,6 +120,10 @@ trait ApiResponser
     /* Transform Data Method */
     protected function transformData($data, $transformer)
     {
+        /* $transformer is something like:
+        *  public $transformer = UserTransformer::class;
+        *  which exist on all the models
+        */
         $transformation = fractal($data, new $transformer);
 
         return $transformation->toArray();

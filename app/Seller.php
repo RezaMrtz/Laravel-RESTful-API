@@ -8,7 +8,7 @@ use App\Transformers\SellerTransformer;
 class Seller extends User
 {
     /* Transformer Model */
-    public  $transformer = SellerTransformer::class;
+    public $transformer = SellerTransformer::class;
 
     public static function boot()
     {
