@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Dotenv\Exception\ValidationException;
 
 class TransformInput
 {
@@ -25,5 +26,26 @@ class TransformInput
         $request->replace($transformInput);
 
         return $next($request);
+
+        if (isset(response()->exception) && response()->exception instanceof ValidationException) {
+
+            $data = response()->getDate();
+
+            $transformedErrors = [];
+
+            foreach ($data->error as $field => $error) {
+
+                $transformedField = $transformer::transformedAttribute($field);
+
+                $transformedErrors[$transformedField] = str_replace($field, $transformedField, $error);
+
+            }
+
+            $data->error = $transformedErrors;
+
+            response()->setData($data);
+        }
+
+        return response();
     }
 }

@@ -15,32 +15,48 @@ class UserTransformer extends TransformerAbstract
     public function transform(User $user)
     {
         return [
-            'identificator'=> (int)$user->id,
-            'name'=>(string)$user->name,
-            'email'=>(string)$user->email,
-            'isVerified'=>($user->admin == 'true'),
-            'creationDate'=>$user->created_at,
-            'lastChange'=>$user->updated_at,
-            'deletedDate'=>isset($user->deleted_at) ? (string)$user->deleted_at : null,
+            'identificator' => (int) $user->id,
+            'name' => (string) $user->name,
+            'email' => (string) $user->email,
+            'isVerified' => ($user->admin == 'true'),
+            'creationDate' => $user->created_at,
+            'lastChange' => $user->updated_at,
+            'deletedDate' => isset($user->deleted_at) ? (string) $user->deleted_at : null,
 
             'links' =>
-                [
-                    'rel'=> 'self',
-                    'href'=> route('users.show',$user->id),
-                ]
+            [
+                'rel' => 'self',
+                'href' => route('users.show', $user->id),
+            ]
         ];
     }
 
     public static function originalAttribute($index)
     {
         $attributes = [
-            'identificator' =>'id',
+            'identificator' => 'id',
             'name' => 'name',
             'email' => 'email',
             'isVerified' => 'admin',
             'creationDate' => 'created_at',
             'lastChange' => 'updated_at',
-            'deletedDate' =>'deleted_at',
+            'deletedDate' => 'deleted_at',
+        ];
+
+        return isset($attributes[$index]) ? $attributes[$index] : null;
+    }
+
+
+    public static function transformedAttribute($index)
+    {
+        $attributes = [
+            'identificator'=> 'id',
+            'name'=> 'name',
+            'email'=>  'email',
+            'isVerified'=>  'admin',
+            'created_at'=> 'creationDate',
+            'updated_at'=>  'lastChange',
+            'deleted_at'=> 'deletedDate',
         ];
 
         return isset($attributes[$index]) ? $attributes[$index] : null;
