@@ -7,6 +7,7 @@ use App\Product;
 use App\Transaction;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ApiController;
+use App\Transformers\TransactionTransformer;
 
 class ProductBuyerTransactionController extends ApiController
 {

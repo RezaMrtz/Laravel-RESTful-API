@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Category;
 use App\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ApiController;
-use App\Traits\ApiResponser;
+use App\Transformers\CategoryTransformer;
 
 class CategoryController extends ApiController
 {
