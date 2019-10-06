@@ -21,17 +21,6 @@ class SellerController extends ApiController
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  \App\User\Seller  $seller
@@ -40,28 +29,5 @@ class SellerController extends ApiController
     public function show(Seller $seller)
     {
         return response()->json(['data' => $seller, 'code' => 200], 200);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User\Seller  $seller
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Seller $seller)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\User\Seller  $seller
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Seller $seller)
-    {
-        //
     }
 }
