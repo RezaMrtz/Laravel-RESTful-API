@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Buyer;
+namespace App\Http\Controllers\Seller;
 
 use App\Buyer;
 use App\Http\Controllers\ApiController;

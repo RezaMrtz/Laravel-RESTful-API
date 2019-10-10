@@ -14,7 +14,7 @@ class UserController extends ApiController
 
     public function __construct()
     {
-        parent::__construct();
+        $this->middleware('client.credentials')->only(['store','resend']);
 
         $this->middleware('transform.input:' . UserTransformer::class)->only(['store','update']);
     }
@@ -136,6 +136,7 @@ class UserController extends ApiController
         return response()->json(['data' => $user], 200);
     }
 
+    /* Verification Message */
     public function verify($token)
     {
         $user = User::where('verification_token', $token)->firstOrFail();
@@ -148,6 +149,7 @@ class UserController extends ApiController
         return $this->showMessage('The account has been verified successfully');
     }
 
+    /* Resend Email Message */
     public function resend(User $user)
     {
         if ($user->isVerified()) {
