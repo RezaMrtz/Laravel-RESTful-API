@@ -8,6 +8,11 @@ use App\Http\Controllers\ApiController;
 
 class BuyerSellerController extends ApiController
 {
+    /* Calling auth middleware in apiController */
+    public function __construct()
+    {
+        parent::__construct();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,11 +21,11 @@ class BuyerSellerController extends ApiController
     public function index(Buyer $buyer)
     {
         $sellers = $buyer->transactions()
-        ->with('product.seller')
-        ->get()
-        ->pluck('product.seller')
-        ->unique('id')
-        ->values();
+            ->with('product.seller')
+            ->get()
+            ->pluck('product.seller')
+            ->unique('id')
+            ->values();
 
         return $this->showAll($sellers);
     }

@@ -10,11 +10,10 @@ use App\Transformers\CategoryTransformer;
 
 class CategoryController extends ApiController
 {
-
     public function __construct()
     {
         $this->middleware('client.credentials')->only(['store','update']);
-
+        $this->middleware('auth:api')->except(['store','update']);
         $this->middleware('transform.input:' . CategoryTransformer::class)->only(['store', 'update']);
     }
 

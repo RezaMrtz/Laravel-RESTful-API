@@ -7,6 +7,11 @@ use App\Http\Controllers\ApiController;
 
 class CategoryBuyerController extends ApiController
 {
+    /* Calling auth middleware in apiController */
+    public function __construct()
+    {
+        parent::__construct();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,14 +20,14 @@ class CategoryBuyerController extends ApiController
     public function index(Category $category)
     {
         $buyer = $category->products()
-        ->whereHas('transactions')
-        ->with('transactions.buyer')
-        ->get()
-        ->pluck('transactions')
-        ->collapse()
-        ->pluck('buyer')
-        ->unique('id')
-        ->values();
+            ->whereHas('transactions')
+            ->with('transactions.buyer')
+            ->get()
+            ->pluck('transactions')
+            ->collapse()
+            ->pluck('buyer')
+            ->unique('id')
+            ->values();
 
         return $this->showAll($buyer);
     }

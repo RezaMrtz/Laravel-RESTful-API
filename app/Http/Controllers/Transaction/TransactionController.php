@@ -6,6 +6,11 @@ use App\Transaction;
 use App\Http\Controllers\ApiController;
 class TransactionController extends ApiController
 {
+    /* Calling auth middleware in apiController */
+    public function __construct()
+    {
+        parent::__construct();
+    }
     /**
      * Display a listing of the resource.
      *

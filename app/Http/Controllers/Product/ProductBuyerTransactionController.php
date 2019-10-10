@@ -16,7 +16,7 @@ class ProductBuyerTransactionController extends ApiController
     {
         parent::__construct();
 
-        $this->middleware('transform.input:' . TransactionTransformer::class)->only(['store', 'update']);
+        $this->middleware('transform.input:' . TransactionTransformer::class)->only(['store']);
     }
 
     /**

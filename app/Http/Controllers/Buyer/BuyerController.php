@@ -8,12 +8,17 @@ use App\Http\Controllers\ApiController;
 
 class BuyerController extends ApiController
 {
+    /* Calling auth middleware in apiController */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function index()
     {
         $buyer = Buyer::has('transactions')->get();
 
         return $this->showAll($buyer);
-
     }
 
     public function show($id)
@@ -22,5 +27,4 @@ class BuyerController extends ApiController
 
         return $this->showOne($buyer);
     }
-
 }

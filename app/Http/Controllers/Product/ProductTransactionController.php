@@ -7,6 +7,11 @@ use App\Http\Controllers\ApiController;
 
 class ProductTransactionController extends ApiController
 {
+    /* Calling auth middleware in apiController */
+    public function __construct()
+    {
+        $this->middleware('auth:api')->only(['index']);;
+    }
     /**
      * Display a listing of the resource.
      *

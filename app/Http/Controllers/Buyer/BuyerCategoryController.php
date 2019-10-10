@@ -7,6 +7,11 @@ use App\Http\Controllers\ApiController;
 
 class BuyerCategoryController extends ApiController
 {
+    /* Calling auth middleware in api */
+    public function __construct()
+    {
+        parent::__construct();
+    }
     /**
      * Display a listing of the resource.
      *

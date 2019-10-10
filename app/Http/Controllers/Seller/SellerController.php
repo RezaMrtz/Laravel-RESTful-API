@@ -8,6 +8,11 @@ use App\Http\Controllers\ApiController;
 
 class SellerController extends ApiController
 {
+    /* Calling auth middleware in apiController */
+    public function __construct()
+    {
+        parent::__construct();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -28,6 +33,7 @@ class SellerController extends ApiController
      */
     public function show(Seller $seller)
     {
-        return response()->json(['data' => $seller, 'code' => 200], 200);
+    //     return response()->json(['data' => $seller, 'code' => 200], 200);
+        return $this->showOne($seller);
     }
 }
