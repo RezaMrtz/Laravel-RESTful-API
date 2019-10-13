@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Buyer;
 use App\Policies\BuyerPolicy;
+use App\Policies\SellerPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Laravel\Passport\Passport;
@@ -17,6 +18,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Buyer::class => BuyerPolicy::class,
+        Seller::class => SellerPolicy::class,
     ];
 
     /**
@@ -35,14 +37,13 @@ class AuthServiceProvider extends ServiceProvider
         Passport::personalAccessTokensExpireIn(now()->addMonths(6));
         Passport::enableImplicitGrant();
         Passport::tokensCan([
-            'purchased-product'=>'Create a new transaction for a specific product',
-            'manage-product'=>'Create, read, update, and delete products (CRUD)',
-            'manage-account'=>'Read your account data, id, name, email, if verified and if
+            'purchased-product' => 'Create a new transaction for a specific product',
+            'manage-product' => 'Create, read, update, and delete products (CRUD)',
+            'manage-account' => 'Read your account data, id, name, email, if verified and if
             admin (cannot read password). Modify your account data (email and password).
             Cannot delete your account',
-            'read-general'=>'Read general information like purchasing categories, purchased products,
-            selling products, selling categories, your transactions (purchased and sells)',
+            'read-general' => 'Read general information like purchasing categories, purchased products,
+                        selling products, selling categories, your transactions (purchased and sells)'
         ]);
-
     }
 }
