@@ -32,7 +32,6 @@ class AuthServiceProvider extends ServiceProvider
         Passport::refreshTokensExpireIn(now()->addDays(30));
         Passport::personalAccessTokensExpireIn(now()->addMonths(6));
         Passport::enableImplicitGrant();
-
         Passport::tokensCan([
             'purchased-product'=>'Create a new transaction for a specific product',
             'manage-product'=>'Create, read, update, and delete products (CRUD)',

@@ -7,6 +7,7 @@ use App\Product, App\User, App\Seller;
 use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Storage;
 use App\Transformers\ProductTransformer;
+use Illuminate\Auth\Access\AuthorizationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class SellerProductController extends ApiController
@@ -15,9 +16,9 @@ class SellerProductController extends ApiController
     public function __construct()
     {
         parent::__construct();
-
+        $this->middleware('scope:read-general')->only('index');
+        $this->middleware('scope:manage-products')->except('index');
         $this->middleware('transform.input:' . ProductTransformer::class)->only(['store', 'update']);
-        $this->middleware('auth.api')->except(['store', 'update']);
     }
 
     /**
@@ -27,10 +28,14 @@ class SellerProductController extends ApiController
      */
     public function index(Seller $seller)
     {
-        $products = $seller->products;
-        // $products = $seller->products()->get();   has the same result
+        if (request()->user()->tokenCan('read-general') || request()->user()->tokenCan('
+        manage-products')) {
 
-        return $this->showAll($products);
+            $products = $seller->products;
+            // $products = $seller->products()->get();   has the same result
+            return $this->showAll($products);
+        }
+        throw new AuthorizationException('Invalid scope(s)');
     }
 
     /**
@@ -39,7 +44,7 @@ class SellerProductController extends ApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,User $seller)
+    public function store(Request $request, User $seller)
     {
         $rules = [
             'name' => 'required',
@@ -71,7 +76,7 @@ class SellerProductController extends ApiController
     {
         $rules = [
             'quantity' => 'integer | min:1',
-            'status'=> 'in:'. Product::AVAILABLE_PRODUCT. ',' .Product::UNAVAILABLE_PRODUCT,
+            'status' => 'in:' . Product::AVAILABLE_PRODUCT . ',' . Product::UNAVAILABLE_PRODUCT,
             'image' => 'image'
         ];
 
@@ -86,12 +91,10 @@ class SellerProductController extends ApiController
             'quantity'
         ]));
 
-        if ($request->has('status'))
-        {
+        if ($request->has('status')) {
             $product->status = $request->status;
 
-            if ($product->isAvailable() && $product->categories()->count() == 0)
-            {
+            if ($product->isAvailable() && $product->categories()->count() == 0) {
                 return $this->errorResponse('An active product must have at least ONE category', 409);
             }
         }
@@ -109,7 +112,7 @@ class SellerProductController extends ApiController
 
         $product->save();
 
-        return $this-> showOne($product);
+        return $this->showOne($product);
     }
 
     /**
@@ -131,7 +134,8 @@ class SellerProductController extends ApiController
 
 
     /* Custom Method */
-    protected function checkSeller(Seller $seller, Product $product) {
+    protected function checkSeller(Seller $seller, Product $product)
+    {
 
         if ($seller->id != $product->seller_id) {
             throw new HttpException(422, 'The specified seller is not the actual seller of the product');
