@@ -5,7 +5,9 @@ namespace App\Providers;
 use App\Buyer;
 use App\Policies\BuyerPolicy;
 use App\Policies\SellerPolicy;
+use App\Policies\TransactionPolicy;
 use App\Policies\UserPolicy;
+use App\Transaction;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Laravel\Passport\Passport;
@@ -21,6 +23,7 @@ class AuthServiceProvider extends ServiceProvider
         Buyer::class => BuyerPolicy::class,
         Seller::class => SellerPolicy::class,
         User::class => UserPolicy::class,
+        Transaction::class => TransactionPolicy::class,
     ];
 
     /**
