@@ -12,7 +12,7 @@
 */
 
 /* Authentication */
-Route::post('/login', 'Auth\LoginController@login');
+Route::post('/login', 'Auth\LoginController@login'); //FIXME: login by POST is not working
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
 

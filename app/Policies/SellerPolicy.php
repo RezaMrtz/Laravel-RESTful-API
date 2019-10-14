@@ -92,7 +92,7 @@ class SellerPolicy
         //
     }
 
-    public function editProduct(User $user, Seller $seller)
+    public function editProduct(User $user, Seller $seller) 
     {
         return $user->id === $seller->id;
     }

@@ -2790,7 +2790,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     triggerTransitionEnd: function triggerTransitionEnd(element) {
       $(element).trigger(TRANSITION_END);
     },
-    // TODO: Remove in v5
+    // TODO:20 Remove in v5
     supportsTransitionEnd: function supportsTransitionEnd() {
       return Boolean(TRANSITION_END);
     },
@@ -6349,7 +6349,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var targetBCR = target.getBoundingClientRect();
 
           if (targetBCR.width || targetBCR.height) {
-            // TODO (fat): remove sketch reliance on jQuery position/offset
+            // TODO:0 (fat): remove sketch reliance on jQuery position/offset
             return [$(target)[offsetMethod]().top + offsetBase, targetSelector];
           }
         }
@@ -7988,7 +7988,7 @@ function Sizzle( selector, context, results, seed ) {
 						if ( (elem = context.getElementById( m )) ) {
 
 							// Support: IE, Opera, Webkit
-							// TODO: identify versions
+							// TODO:30 identify versions
 							// getElementById can match elements by name instead of ID
 							if ( elem.id === m ) {
 								results.push( elem );
@@ -8002,7 +8002,7 @@ function Sizzle( selector, context, results, seed ) {
 					} else {
 
 						// Support: IE, Opera, Webkit
-						// TODO: identify versions
+						// TODO:40 identify versions
 						// getElementById can match elements by name instead of ID
 						if ( newContext && (elem = newContext.getElementById( m )) &&
 							contains( context, elem ) &&
@@ -9771,7 +9771,7 @@ function matcherFromGroupMatchers( elementMatchers, setMatchers ) {
 			matchedCount += i;
 
 			// Apply set filters to unmatched elements
-			// NOTE: This can be skipped if there are no unmatched elements (i.e., `matchedCount`
+			// NOTE:50 This can be skipped if there are no unmatched elements (i.e., `matchedCount`
 			// equals `i`), unless we didn't visit _any_ elements in the above loop because we have
 			// no element matchers and no seed.
 			// Incrementing an initially-string "0" `i` allows `i` to remain a string only in that
@@ -11478,7 +11478,7 @@ jQuery.extend( {
 		dataUser.remove( elem, name );
 	},
 
-	// TODO: Now that all calls to _data and _removeData have been replaced
+	// TODO:10 Now that all calls to _data and _removeData have been replaced
 	// with direct calls to dataPriv methods, these can be deprecated.
 	_data: function( elem, name, data ) {
 		return dataPriv.access( elem, name, data );
@@ -35561,7 +35561,7 @@ function getFixedPositionOffsetParent(element) {
 function getBoundaries(popper, reference, padding, boundariesElement) {
   var fixedPosition = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
 
-  // NOTE: 1 DOM access here
+  // NOTE:20 1 DOM access here
 
   var boundaries = { top: 0, left: 0 };
   var offsetParent = fixedPosition ? getFixedPositionOffsetParent(popper) : findCommonOffsetParent(popper, reference);
@@ -36809,7 +36809,7 @@ function preventOverflow(data, options) {
     boundariesElement = getOffsetParent(boundariesElement);
   }
 
-  // NOTE: DOM access here
+  // NOTE:30 DOM access here
   // resets the popper's position so that the document size can be calculated excluding
   // the size of the popper element itself
   var transformProp = getSupportedPropertyName('transform');
@@ -36824,7 +36824,7 @@ function preventOverflow(data, options) {
 
   var boundaries = getBoundaries(data.instance.popper, data.instance.reference, options.padding, boundariesElement, data.positionFixed);
 
-  // NOTE: DOM access here
+  // NOTE:40 DOM access here
   // restores the original style properties after the offsets have been computed
   popperStyles.top = top;
   popperStyles.left = left;
@@ -38530,7 +38530,7 @@ module.exports = function (css) {
 		var newUrl;
 
 		if (unquotedOrigUrl.indexOf("//") === 0) {
-		  	//TODO: should we add protocol?
+		  	//TODO:50 should we add protocol?
 			newUrl = unquotedOrigUrl;
 		} else if (unquotedOrigUrl.indexOf("/") === 0) {
 			// path should be relative to the base url
@@ -45189,7 +45189,7 @@ function initGlobalAPI (Vue) {
   Object.defineProperty(Vue, 'config', configDef);
 
   // exposed util methods.
-  // NOTE: these are not considered part of the public API - avoid relying on
+  // NOTE:60 these are not considered part of the public API - avoid relying on
   // them unless you are aware of the risk.
   Vue.util = {
     warn: warn,
@@ -51047,7 +51047,7 @@ function genScopedSlots (
   // OR when it is inside another scoped slot or v-for (the reactivity may be
   // disconnected due to the intermediate scope variable)
   // #9438, #9506
-  // TODO: this can be further optimized by properly analyzing in-scope bindings
+  // TODO:60 this can be further optimized by properly analyzing in-scope bindings
   // and skip force updating ones that do not actually use scope variables.
   if (!needsForceUpdate) {
     var parent = el.parent;
