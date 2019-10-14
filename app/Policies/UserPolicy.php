@@ -2,12 +2,13 @@
 
 namespace App\Policies;
 
+use App\Traits\AdminActions;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class UserPolicy
 {
-    use HandlesAuthorization;
+    use HandlesAuthorization, AdminActions;
 
     /**
      * Determine whether the user can view the model.
@@ -43,5 +44,5 @@ class UserPolicy
     public function delete(User $authenticatedUser, User $model)
     {
         return $authenticatedUser->id === $model->id && $authenticatedUser->token()->client->personal_access_client;
-    }  
+    }
 }

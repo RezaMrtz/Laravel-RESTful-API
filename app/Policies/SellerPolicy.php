@@ -4,11 +4,12 @@ namespace App\Policies;
 
 use App\User;
 use App\Seller;
+use App\Traits\AdminActions;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class SellerPolicy
 {
-    use HandlesAuthorization;
+    use HandlesAuthorization, AdminActions;
 
     /**
      * Determine whether the user can view any sellers.
@@ -92,7 +93,7 @@ class SellerPolicy
         //
     }
 
-    public function editProduct(User $user, Seller $seller) 
+    public function editProduct(User $user, Seller $seller)
     {
         return $user->id === $seller->id;
     }

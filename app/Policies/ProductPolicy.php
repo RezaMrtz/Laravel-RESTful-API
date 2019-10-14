@@ -4,11 +4,12 @@ namespace App\Policies;
 
 use App\User;
 use App\Product;
+use App\Traits\AdminActions;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ProductPolicy
 {
-    use HandlesAuthorization;
+    use HandlesAuthorization, AdminActions;
 
     public function addCategory(User $user, Product $product)
     {
