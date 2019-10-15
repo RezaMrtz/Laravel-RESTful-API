@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use App\Traits\ApiResponser;
+use Asm89\Stack\CorsService;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -59,6 +60,16 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        $response = $this->handleException($request, $exception);
+
+        app(CorsService::class)->addActualRequestHeaders($response, $request);
+
+        return $response;
+    }
+
+    /* My Code */
+    public function handleException($request, Exception $exception)
+    {
         if ($exception instanceof ValidationException) {
 
             return $this->convertValidationExceptionToResponse($exception, $request);
@@ -70,7 +81,6 @@ class Handler extends ExceptionHandler
             return $this->errorResponse("Does not exist any { $modelName } with the specified identificator", 403);
         }
 
-        /* My Code */
         if ($exception instanceof AuthenticationException) {
             return $this->unauthenticated($request, $exception);
         }
@@ -109,8 +119,6 @@ class Handler extends ExceptionHandler
         }
 
         return $this->errorResponse('Unexpected exception. Please try later.', 500);
-
-        /* * */
     }
 
     /* My codes */
@@ -120,7 +128,7 @@ class Handler extends ExceptionHandler
         if ($this->isFrontend($request)) {
             return redirect()->guest('login');
         }
-        
+
         return $this->errorResponse('Unauthenticated', 401);
     }
 
