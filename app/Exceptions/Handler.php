@@ -66,6 +66,19 @@ class Handler extends ExceptionHandler
 
         return $response;
     }
+    /*
+      List of Exception Class's which is used
+    *
+    * ValidationException
+    * ModelNotFoundException
+    * AuthenticationException
+    * AuthorizationException
+    * NotFoundHttpException
+    * MethodNotAllowedHttpException
+    * HttpException
+    * QueryException
+    * TokenMismatchException
+    */
 
     /* My Code */
     public function handleException($request, Exception $exception)
