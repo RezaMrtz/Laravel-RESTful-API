@@ -5,9 +5,11 @@ namespace App\Http\Controllers\User;
 use App\User;
 use App\Mail\UserCreated;
 use Illuminate\Http\Request;
+use App\Http\Requests\UpdateUser;
 use Illuminate\Support\Facades\Mail;
 use App\Transformers\UserTransformer;
 use App\Http\Controllers\ApiController;
+use App\Http\Requests\StoreUser;
 
 class UserController extends ApiController
 {
@@ -42,15 +44,10 @@ class UserController extends ApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUser $request)
     {
-        $rules = [
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6|confirmed'
-        ];
 
-        $this->validate($request, $rules);
+        $validate = $request->validate();
 
         $data = $request->all();
         $data['password'] = bcrypt($request->password);
@@ -81,18 +78,12 @@ class UserController extends ApiController
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUser $request, $id)
     {
-
         $user = User::findOrFail($id);
 
-        $rules = [
-            'email' => 'email|unique:users,email,' . $user->id,
-            'password' => 'required|min:6|confirmed',
-            'admin' => 'in:' . User::ADMIN_USER . ',' . User::REGULAR_USER,
-        ];
-
-        // $this->validate($request, $rules);
+        //TODO: Authorizing Form Requests Possibility
+        $validate = $request->validate();
 
         if ($request->has('name')) {
             $user->name = $request->name;

@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Category;
 use App\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ApiController;
+use App\Http\Requests\StoreCategory;
 use App\Transformers\CategoryTransformer;
 
 class CategoryController extends ApiController
@@ -37,16 +38,11 @@ class CategoryController extends ApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCategory $request)
     {
         $this->allowedAdminAction();
 
-        $rules = [
-            'name' => 'required',
-            'description' => 'required|max:56'
-        ];
-
-        $this->validate($request, $rules);
+        $validate = $request->validate();
 
         $newCategory = Category::create($request->all());
 

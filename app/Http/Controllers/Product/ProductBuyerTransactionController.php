@@ -25,14 +25,10 @@ class ProductBuyerTransactionController extends ApiController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Product $product, User $buyer)
+    public function store(StoreProductBuyerTransaction $request, Product $product, User $buyer)
     {
-        $rules = [
-            'quantity' => 'required|integer|min:1|'
-        ];
-
-        $this->validate($request, $rules);
-
+        $validate = $request->validate();
+        
         if ($buyer->id == $product->seller_id ) {
             return $this->errorResponse('The buyer must be different from the user', 409);
         }
